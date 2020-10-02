@@ -85,60 +85,6 @@ class Miscellaneous(commands.Cog):
         embed = discord.Embed(title='Cog successfully reloaded', color=0x5643fd)
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=['calc', 'math'])
-    async def calculate(self, ctx, operation):
-        """Calculate an expression using a fancy discord calculator"""
-        expression = operation
-        words = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z', '\\', '{', '}', '"', '&', '^', '$', '#', '@', '[', ']', '|', '?', '**']
-        if any(words in operation for words in words):
-            embed = discord.Embed(title='Warning', description='You are not allowed to do that.', color=0xFF0000)
-            embed.set_thumbnail(url='https://i.imgur.com/uafPEpb.png')
-            await ctx.send(embed=embed)
-            return
-        meme = ['9+10']
-        if any(words in operation for words in meme):
-            embed = discord.Embed(title='Discord Calculator', color=0x5643fd, timestamp=ctx.message.created_at)
-            embed.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
-            embed.set_thumbnail(url='https://pngimg.com/uploads/calculator/calculator_PNG7939.png')
-
-            embed.add_field(name='Input Expression', value=f"```py\n{expression}```", inline=False)
-
-            embed.add_field(name='Output Solution', value="```py\n21```", inline=False)
-
-            return await ctx.send(embed=embed)
-        if len(str(operation)) < 21:
-            try:
-                solution = eval(operation)
-                embed = discord.Embed(title='Discord Calculator', color=0x5643fd, timestamp=ctx.message.created_at)
-                embed.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
-                embed.set_thumbnail(url='https://pngimg.com/uploads/calculator/calculator_PNG7939.png')
-
-                embed.add_field(name='Input Expression', value=f"```py\n{expression}```", inline=False)
-
-                embed.add_field(name='Output Solution', value=f"```py\n{solution}```", inline=False)
-
-                await ctx.send(embed=embed)
-            except ZeroDivisionError:
-                embed = discord.Embed(title='Error...', color=0xFF0000, description="You cannot divide by zero.")
-                embed.set_footer(text=f'Error occurred at {ctx.message.created_at}',
-                                 icon_url=ctx.message.author.avatar_url)
-                embed.set_thumbnail(url='https://imgur.com/uafPEpb')
-                await ctx.send(embed=embed)
-            except ValueError:
-                embed = discord.Embed(title='Error...', color=0xFF0000, description="That expression is invalid.")
-                embed.set_footer(text=f'Error occurred at {ctx.message.created_at}',
-                                 icon_url=ctx.message.author.avatar_url)
-                embed.set_thumbnail(url='https://imgur.com/uafPEpb')
-                await ctx.send(embed=embed)
-            return
-        else:
-            embed = discord.Embed(title='Warning!', color=0xFF0000,
-                                  description='Your operation must be under 21 characters long.',
-                                  timestamp=ctx.message.created_at)
-            embed.set_thumbnail(url='https://imgur.com/uafPEpb')
-            await ctx.send(embed=embed)
-
     @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.channel)
     async def timer(self, ctx, seconds: int = 60):
@@ -168,13 +114,6 @@ class Miscellaneous(commands.Cog):
             embed = discord.Embed(title='This command is on cooldown!', color=0xFF0000,
                                   description='You must wait 30 seconds before using this command again.')
             await ctx.send(embed=embed)
-
-    @commands.Cog.listener(name='on_message')
-    async def maymayhelper_mention(self, message):
-        if "<@&710880987168505898>" in message.content:
-            for i in ["<:upvote:700689655607197746>", "<:downvote:700689654906880063>", "<:yes:719841750788866060>",
-                      "<:pepesquint:700692817789321269>"]:
-                await message.add_reaction(i)
 
     @commands.command()
     async def ping(self, ctx):

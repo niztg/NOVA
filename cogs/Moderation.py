@@ -81,9 +81,9 @@ class Moderation(commands.Cog):
         embed = discord.Embed(title=f'New Poll', color=0x5643fd, description=msg, timestamp=ctx.message.created_at)
         embed.set_footer(icon_url=ctx.message.author.avatar_url, text=ctx.message.author)
         poll = await ctx.send(embed=embed)
-        for e in ['⬆️', '⬇️']:
-            await poll.add_reaction(e)
+        for i in ["⬆️", "⬇️"]:
+            await poll.add_reaction(i)
 
 
 def setup(client):
-    client.add_cog(Moderation(client, ))
+    client.add_cog(Moderation(client))
