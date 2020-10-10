@@ -117,7 +117,9 @@ class Miscellaneous(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx):
-        await ctx.send(f"``{self.client.latency * 1000}``ms")
+        """Calculate bot latency"""
+        ping = round(self.client.latency, 5)
+        await ctx.send(f"<a:loading:743537226503421973> ``{ping * 1000} milliseconds`` <a:loading:743537226503421973>")
 
 
 def setup(client):

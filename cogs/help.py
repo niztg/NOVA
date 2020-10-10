@@ -77,7 +77,8 @@ class Help(commands.Cog):
                                       '(https://discord.com/oauth2/authorize?client_id=7099228509534'
                                       '94598&permissions=470150214&scope=bot)\n'
                                       '<:share:730823872265584680>[Join the support server]'
-                                      '(https://discord.gg/Uqh9NXY)')
+                                      '(https://discord.gg/Uqh9NXY)\n<:share:730823872265584680>[View the source code]'
+                                      '(https://github.com/YeetVegetabales/NOVA/tree/master/cogs)')
                 await ctx.send(embed=embed)
             elif command in list_of_cogs:
                 i = []

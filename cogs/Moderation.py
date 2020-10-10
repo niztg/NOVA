@@ -20,7 +20,7 @@ class Moderation(commands.Cog):
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         """Kick a member from the server"""
         await member.kick(reason=reason)
-        await ctx.send(f"<:GreenTick:707950252434653184> Successfully kicked {member}")
+        await ctx.send(f"<a:a_check:742966013930373151> Successfully kicked {member}")
         await member.send(f"You have been kicked from **{ctx.guild.name}** for the following reason:"
                           f"\n```py\n{reason}```")
 
@@ -30,7 +30,7 @@ class Moderation(commands.Cog):
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         """Ban a member from the server"""
         await member.ban(reason=reason)
-        await ctx.send(f"<:GreenTick:707950252434653184> Successfully banned {member}")
+        await ctx.send(f"<a:a_check:742966013930373151> Successfully banned {member}")
         await member.send(f"You have been banned from **{ctx.guild.name}** for the following reason:"
                           f"\n```py\n{reason}```")
 
@@ -47,8 +47,8 @@ class Moderation(commands.Cog):
 
             if (user.name, user.discriminator) == (member_name, member_discriminator):
                 await ctx.guild.unban(user)
-                await ctx.send(f"<:GreenTick:707950252434653184> Successfully unbanned {user}")
-                await user.send(f'<:tickgreen:732660186560462958> You have been unbanned from **{ctx.guild.name}**')
+                await ctx.send(f"<a:a_check:742966013930373151> Successfully unbanned {user}")
+                await user.send(f'<a:a_check:742966013930373151> You have been unbanned from **{ctx.guild.name}**')
                 return
 
     @commands.command()
@@ -57,7 +57,7 @@ class Moderation(commands.Cog):
     async def clear(self, ctx, amount: int = 5):
         """Purge any amount of messages with a default of 5"""
         await ctx.channel.purge(limit=amount + 1)
-        await ctx.send(f'<:GreenTick:707950252434653184>  ``{amount}`` messages have been cleared',
+        await ctx.send(f'<a:a_check:742966013930373151>  ``{amount}`` messages have been cleared',
                        delete_after=3.0)
 
     @commands.command()
@@ -67,11 +67,11 @@ class Moderation(commands.Cog):
         """Set the slowmode for a channel"""
         await ctx.channel.edit(slowmode_delay=seconds)
         if seconds == 0:
-            await ctx.send(f"<:GreenTick:707950252434653184> "
+            await ctx.send(f"<a:a_check:742966013930373151> "
                            f"Slowmode for <#{ctx.channel.id}> has been removed.")
             return
         else:
-            await ctx.send(f"<:GreenTick:707950252434653184> "
+            await ctx.send(f"<a:a_check:742966013930373151> "
                            f"Slowmode for <#{ctx.channel.id}> has been set to ``{seconds}`` seconds."
                            f"\nDo ``n.slowmode 0`` to remove slowmode!")
 

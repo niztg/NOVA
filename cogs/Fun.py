@@ -215,18 +215,49 @@ class Fun(commands.Cog):
                      'https://youtu.be/YPTuw5R7NKk', 'https://youtu.be/jnT29dd7LWM', 'https://youtu.be/7XzxDIJKXlk']
         await ctx.send(random.choice(responses))
 
-    @commands.command(aliases=['randomnumbergenerator', 'randomnum'])
-    async def rng(self, ctx, num1: int = 1, num2: int = 100):
-        """Have NOVA randomly choose from a range of numbers"""
-        selection = (random.randint(num1, num2))
-        embed = discord.Embed(title='Random Number Generator', color=0x5643fd, timestamp=ctx.message.created_at,
-                              description=f'Choosing between ``{num1}`` and ``{num2}``\nI have chosen ``{selection}``')
-        await ctx.send(embed=embed)
-
     @commands.command()
     async def hex(self, ctx, code):
+        """Explore hex colors"""
         color = discord.Colour(int(code, 16))
-        await ctx.send(embed=discord.Embed(color=color, description=f'Showing hex code ```#{code}```\n\n\n'))
+        async with aiohttp.ClientSession() as cs, ctx.typing():
+            async with cs.get(f"https://www.thecolorapi.com/id?hex={code}") \
+                    as resp:
+                if resp.status != 200:
+                    return await ctx.send('<:RedX:707949835960975411> No hex code could be found.')
+                else:
+                    js = await resp.json()
+                    name = js['name']
+                    image = js['image']
+                    rgb = js['rgb']
+                    hsl = js['hsl']
+                    hsv = js['hsv']
+                    cmyk = js['cmyk']
+                    xyz = js['XYZ']
+                    embed = discord.Embed(title=f"Showing hex code ``#{code}``", color=color,
+                                          timestamp=ctx.message.created_at)
+                    embed.add_field(name='Name', value=f"{name['value']}")
+                    embed.add_field(name='Exact name?', value=f"``{name['exact_match_name']}``")
+                    embed.add_field(name='Closest named hex', value=f"``{name['closest_named_hex']}``")
+                    embed.add_field(name='🔗 Image Links',
+                                    value=f"<:asset:734531316741046283> [Bare]({image['bare']})\n"
+                                          f"<:asset:734531316741046283> [Labeled]({image['named']})", inline=False)
+                    embed.add_field(name='Other Codes',
+                                    value=f"**rgb**({rgb['r']}, {rgb['g']}, {rgb['b']})\n"
+                                          f"**hsl**({hsl['h']}, {hsl['s']}, {hsl['l']})\n"
+                                          f"**hsv**({hsv['h']}, {hsv['s']}, {hsv['v']})\n"
+                                          f"**cmyk**({cmyk['c']}, {cmyk['m']}, {cmyk['y']}, {cmyk['k']})\n"
+                                          f"**XYZ**({xyz['X']}, {xyz['Y']}, {xyz['Z']})", inline=False)
+                    await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.cooldown(1, 59, commands.BucketType.member)
+    async def poke(self, ctx, member: discord.Member, *, message):
+        """This command shows up in the dictionary under the definition of annoying."""
+        member = member or ctx.message.author
+        await ctx.send(f'<a:a_check:742966013930373151> Message successfully sent to ``{member}``')
+        embed = discord.Embed(title=f'Message from {ctx.message.author}:', color=0x5643fd, description=message,
+                              timestamp=ctx.message.created_at)
+        await member.send(embed=embed)
 
 
 def setup(client):

@@ -1,4 +1,5 @@
 import discord
+import cmath
 from discord.ext import commands
 
 
@@ -13,7 +14,7 @@ class Math(commands.Cog):
         print('Math module is ready')
 
     @commands.command(aliases=['calc'])
-    async def calculate(self, ctx, operation):
+    async def calculate(self, ctx, *, operation):
         """Calculate an expression using a fancy discord calculator"""
         expression = operation
         words = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -72,6 +73,29 @@ class Math(commands.Cog):
                              icon_url=ctx.message.author.avatar_url)
             embed.set_thumbnail(url='https://i.imgur.com/uafPEpb.png')
             await ctx.send(embed=embed)
+
+    @commands.command(aliases=['quad'])
+    async def quadratic(self, ctx, a: float = 1, b: float = 1, c: float = 0):
+        """Calculate the solutions for a quadratic equation."""
+        d = (b ** 2) - (4 * a * c)
+        sol1 = (-b - cmath.sqrt(d)) / (2 * a)
+        sol2 = (-b + cmath.sqrt(d)) / (2 * a)
+        embed = discord.Embed(title='Solved!', timestamp=ctx.message.created_at, color=0x5643fd,
+                              description=f'A value = ``{a}``\n'
+                                          f'B value = ``{b}``\n'
+                                          f'C value = ``{c}``')
+        embed.set_image(url='https://imgur.com/X134y4a.png')
+        embed.add_field(name='Solution One', value=f'```py\n{sol1}```', inline=False)
+        embed.add_field(name='Solution Two', value=f'```py\n{sol2}```', inline=False)
+        await ctx.send(embed=embed)
+
+    @commands.command(aliases=['randomnumbergenerator', 'randomnum'])
+    async def rng(self, ctx, num1: int = 1, num2: int = 100):
+        """Have NOVA randomly choose from a range of numbers"""
+        selection = (random.randint(num1, num2))
+        embed = discord.Embed(title='Random Number Generator', color=0x5643fd, timestamp=ctx.message.created_at,
+                              description=f'Choosing between ``{num1}`` and ``{num2}``\nI have chosen ``{selection}``')
+        await ctx.send(embed=embed)
 
     @commands.group(invoke_without_command=True)
     async def convert(self, ctx):

@@ -6,7 +6,9 @@ from discord.ext import commands, tasks
 from itertools import cycle
 
 prefix = ['n.', 'N.']
-client = commands.Bot(command_prefix=prefix, case_insensitive=True)
+intents = discord.Intents.default()
+intents.members = True
+client = commands.Bot(command_prefix=prefix, case_insensitive=True, intents=intents)
 client.remove_command('help')
 
 
@@ -35,6 +37,7 @@ async def on_command_error(ctx, error):
                                 '/vsPV_ipxVKfJKE3xJGvJZeXwrxKUqqkJGBFdIgwpWWE3X7CIJrZ6kElRSJ4Mdvw5cC7wMPYLTKFNnBBv-'
                                 '2K4WP344DoO6Al7RQB4.png')
         await ctx.send(embed=embed)
+
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
