@@ -209,8 +209,13 @@ class Reddit(commands.Cog):
             embed.add_field(name='Comments', value=f'💬 {submission.num_comments}')
             await message.edit(
                 embed=embed) if not submission.over_18 or submission.over_18 and ctx.channel.is_nsfw() \
-                else await ctx.send(
-                f"⚠️:underage: **{ctx.author.mention}**, NSFW channel required!")
+                else await message.edit(embed=discord.Embed(title='Warning!',
+                                                            description=f"⚠️:underage: **{ctx.author.mention}**, "
+                                                                        f"NSFW channel required!", color=0xFF0000,
+                                                            timestamp=ctx.message.created_at)
+                                        .set_image(url='https://i.kym-cdn.com/entries/icons/facebook/000/033/758/Screen'
+                                                       '_Sh'
+                                                   'ot_2020-04-28_at_12.21.48_PM.jpg'))
         except Exception as e:
             embed = discord.Embed(title=Error, description=e, color=0xFF0000, timestamp=ctx.message.created_at)
             await ctx.send(embed=embed)
@@ -237,29 +242,6 @@ class Reddit(commands.Cog):
         embed.add_field(name='Posts', value=len(posts), inline=True)
         embed.add_field(name='Comments', value=len(commentt), inline=True)
         embedd.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
-        await message.edit(embed=embed)
-
-    @commands.command()
-    async def aww(self, ctx):
-        """Bleach your eyes with the cute side of reddit"""
-        thing = discord.Embed(title='Loading...', color=0x5643fd,
-                              description='Grabbing post',
-                              timestamp=ctx.message.created_at)
-        thing.set_image(url='https://i.pinimg.com/originals/b2/28/13/b228138ca189b63989d295492e8a8b16.gif')
-        thing.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
-        message = await ctx.send(embed=thing)
-        posts = []
-        for submission in self.reddit.subreddit('eyebleach').hot(limit=100):
-            if not submission.stickied:
-                posts.append(submission)
-        submission = random.choice(posts)
-        embed = discord.Embed(title=submission.title, color=0x5643fd, timestamp=ctx.message.created_at)
-        embed.set_author(name=f'u/{submission.author}', icon_url=submission.author.icon_img)
-        embed.set_image(url=submission.url)
-
-        embed.add_field(name='Score', value=f'<:upvote:718895913342337036> {submission.score}')
-        embed.add_field(name='Comments', value=f'💬 {submission.num_comments}')
-
         await message.edit(embed=embed)
 
 

@@ -20,7 +20,7 @@ class Moderation(commands.Cog):
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         """Kick a member from the server"""
         await member.kick(reason=reason)
-        await ctx.send(f"<a:a_check:742966013930373151> Successfully kicked {member}")
+        await ctx.send(f"<a:a_check:742966013930373151> Successfully kicked ``{member}``")
         await member.send(f"You have been kicked from **{ctx.guild.name}** for the following reason:"
                           f"\n```py\n{reason}```")
 
@@ -30,7 +30,7 @@ class Moderation(commands.Cog):
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         """Ban a member from the server"""
         await member.ban(reason=reason)
-        await ctx.send(f"<a:a_check:742966013930373151> Successfully banned {member}")
+        await ctx.send(f"<a:a_check:742966013930373151> Successfully banned ``{member}``")
         await member.send(f"You have been banned from **{ctx.guild.name}** for the following reason:"
                           f"\n```py\n{reason}```")
 
@@ -47,7 +47,7 @@ class Moderation(commands.Cog):
 
             if (user.name, user.discriminator) == (member_name, member_discriminator):
                 await ctx.guild.unban(user)
-                await ctx.send(f"<a:a_check:742966013930373151> Successfully unbanned {user}")
+                await ctx.send(f"<a:a_check:742966013930373151> Successfully unbanned ``{user}``")
                 await user.send(f'<a:a_check:742966013930373151> You have been unbanned from **{ctx.guild.name}**')
                 return
 
