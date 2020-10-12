@@ -56,6 +56,25 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(f'⚠ You are not allowed to use this command. You must have ``{error.missing_perms}`` '
                        f'permissions in order to do so.')
+    if isinstance(error, commands.UserNotFound):
+        embed = discord.Embed(title='Warning!', color=0xFF0000, timestamp=ctx.message.created_at,
+                              description=f'{ctx.message.author.mention},  '
+                                          f'that user could not be found.')
+        embed.set_thumbnail(url='https://media.discordapp.net/attachments/726475732569555014/745738546660245664'
+                                '/vsPV_ipxVKfJKE3xJGvJZeXwrxKUqqkJGBFdIgwpWWE3X7CIJrZ6kElRSJ4Mdvw5cC7wMPYLTKFNnBBv-'
+                                '2K4WP344DoO6Al7RQB4.png')
+        await ctx.send(embed=embed)
+    if isinstance(error, commands.CommandInvokeError):
+        embed = discord.Embed(title='Warning!', color=0xFF0000, timestamp=ctx.message.created_at,
+                              description=f'{ctx.message.author.mention},  '
+                                          f'there was an error with this command. If you would like to report this '
+                                          f'issue to the creator of this bot, join the support server.\n'
+                                          f'🔗  [Link](https://discord.gg/Uqh9NXY)')
+        embed.add_field(name='Error:', value=f'```py\n{error}```')
+        embed.set_thumbnail(url='https://media.discordapp.net/attachments/726475732569555014/745738546660245664'
+                                '/vsPV_ipxVKfJKE3xJGvJZeXwrxKUqqkJGBFdIgwpWWE3X7CIJrZ6kElRSJ4Mdvw5cC7wMPYLTKFNnBBv-'
+                                '2K4WP344DoO6Al7RQB4.png')
+        await ctx.send(embed=embed)
 
 
 for filename in os.listdir('./cogs'):

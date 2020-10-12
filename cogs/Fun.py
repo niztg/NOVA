@@ -259,6 +259,41 @@ class Fun(commands.Cog):
                               timestamp=ctx.message.created_at)
         await member.send(embed=embed)
 
+    @commands.command()
+    async def secret(self, ctx):
+        """Don't use this command, I'm warning you."""
+        thing = await ctx.send('Why did you just use this command?')
+        await asyncio.sleep(.5)
+        a = await ctx.send("It can't be stopped now.")
+        await asyncio.sleep(.5)
+        b = await ctx.send("You shouldn't have done this.")
+        await asyncio.sleep(.5)
+        embed = discord.Embed(color=0x5643fd)
+        embed.set_image(url='https://i.imgur.com/RnZJkhU.png')
+        message = await ctx.send(embed=embed)
+        await asyncio.sleep(1)
+        embed1 = discord.Embed(color=0x5643fd)
+        embed1.set_image(url='https://i.imgur.com/Z0lf3HK.png')
+        await message.edit(embed=embed1)
+        await asyncio.sleep(1)
+        embed2 = discord.Embed(color=0x5643fd)
+        embed2.set_image(url='https://i.imgur.com/X8jlhvf.png')
+        await message.edit(embed=embed2)
+        await asyncio.sleep(1)
+        embed3 = discord.Embed(color=0x5643fd)
+        embed3.set_image(url='https://illinoistruckcops.org/wp-content/uploads/bfi_thumb/033-nasy0071d7iqe6nru1klw4h'
+                             'qhtzt70v03iypuefoh4.png')
+        await message.edit(embed=embed3)
+        await asyncio.sleep(3)
+        embed4 = discord.Embed(color=0x5643fd)
+        embed4.set_image(url='https://media3.giphy.com/media/Ju7l5y9osyymQ/200.gif')
+        await message.edit(embed=embed4)
+        await asyncio.sleep(5)
+        await thing.edit(content='<:shut:696892857998508052>')
+        await message.delete()
+        await b.delete()
+        await a.delete()
+
 
 def setup(client):
     client.add_cog(Fun(client))

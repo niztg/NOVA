@@ -61,31 +61,6 @@ class Miscellaneous(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    @commands.is_owner()
-    async def load(self, ctx, extension):
-        """Loads a cog (owner only)"""
-        client.load_extension(f'cogs.{extension}')
-        embed = discord.Embed(title='Cog successfully loaded', color=0x5643fd)
-        await ctx.send(embed=embed)
-
-    @commands.command()
-    @commands.is_owner()
-    async def unload(self, ctx, extension):
-        """Unloads a cog (owner only)"""
-        client.unload_extension(f'cogs.{extension}')
-        embed = discord.Embed(title='Cog successfully unloaded', color=0x5643fd)
-        await ctx.send(embed=embed)
-
-    @commands.command()
-    @commands.is_owner()
-    async def reload(self, ctx, extension):
-        """Reloads a cog (owner only)"""
-        client.unload_extension(f'cogs.{extension}')
-        client.load_extension(f'cogs.{extension}')
-        embed = discord.Embed(title='Cog successfully reloaded', color=0x5643fd)
-        await ctx.send(embed=embed)
-
-    @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.channel)
     async def timer(self, ctx, seconds: int = 60):
         """Set a timer using NOVA"""

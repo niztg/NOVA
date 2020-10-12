@@ -29,12 +29,13 @@ class Reddit(commands.Cog):
         print('Reddit module is ready')
 
     @commands.command(aliases=['rs'])
-    async def redditstats(self, ctx, user):
+    async def redditstats(self, ctx, user=None):
         """Gather the reddit stats for a user"""
+        user = user or ctx.message.author.name
         thing = discord.Embed(title='Loading...', color=0x5643fd,
                               description='Please stand by this process should be over shortly',
                               timestamp=ctx.message.created_at)
-        thing.set_image(url='https://i.pinimg.com/originals/b2/28/13/b228138ca189b63989d295492e8a8b16.gif')
+        thing.set_image(url='https://i.imgur.com/gVX3yPJ.gif?noredirect')
         thing.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
         message = await ctx.send(embed=thing)
         redditor = self.reddit.redditor(user)
@@ -59,12 +60,13 @@ class Reddit(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command(aliases=['ms'])
-    async def modstats(self, ctx, user):
+    async def modstats(self, ctx, user=None):
         """Gather the mod stats for a user"""
+        user = user or ctx.message.author.name
         thing = discord.Embed(title='Loading...', color=0x5643fd,
                               description='Please stand by this process should be over shortly',
                               timestamp=ctx.message.created_at)
-        thing.set_image(url='https://i.pinimg.com/originals/b2/28/13/b228138ca189b63989d295492e8a8b16.gif')
+        thing.set_image(url='https://i.imgur.com/gVX3yPJ.gif?noredirect')
         thing.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
         message = await ctx.send(embed=thing)
         reddits = []
@@ -113,7 +115,7 @@ class Reddit(commands.Cog):
         thing = discord.Embed(title='Loading...', color=0x5643fd,
                               description='One dank meme coming right up',
                               timestamp=ctx.message.created_at)
-        thing.set_image(url='https://i.pinimg.com/originals/b2/28/13/b228138ca189b63989d295492e8a8b16.gif')
+        thing.set_image(url='https://i.imgur.com/gVX3yPJ.gif?noredirect')
         thing.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
         message = await ctx.send(embed=thing)
         posts = []
@@ -127,10 +129,8 @@ class Reddit(commands.Cog):
         embed.set_footer(text='r/dankmemes', icon_url='https://images-ext-1.discordapp.net/external/RBgvzfKtRRBs51Gj'
                                                       'dfLcuQhU6kjF_ycIzTW8LVXvsJg/https/b.thumbs.redditmedia.com/qLE'
                                                       '6RUF_ARSgCZ854L5Hq4iKd1GqzuW2A5k6xf2kEFs.png')
-
-        embed.add_field(name='Score', value=f'<:upvote:718895913342337036> {submission.score}')
+        embed.add_field(name='Score', value=f'<:upvote:751314607808839803> {submission.score}')
         embed.add_field(name='Comments', value=f'💬 {submission.num_comments}')
-
         await message.edit(embed=embed)
 
     @commands.command(aliases=['ask'])
@@ -141,7 +141,7 @@ class Reddit(commands.Cog):
         )
         embedd.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
         embedd.set_image(
-            url='https://i.pinimg.com/originals/b2/28/13/b228138ca189b63989d295492e8a8b16.gif')
+            url='https://i.imgur.com/gVX3yPJ.gif?noredirect')
         message = await ctx.send(embed=embedd)
         try:
             posts = []
@@ -151,7 +151,7 @@ class Reddit(commands.Cog):
             final_post = random.choice(posts)
             if final_post.is_self:
                 embed = discord.Embed(title=final_post.title,
-                                      description=final_post.selftext + f"\n<:upvote:718895913342337036> "
+                                      description=final_post.selftext + f"\n<:upvote:751314607808839803> "
                                                                         f"**{final_post.score}**     "
                                                                         f"**💬 {final_post.num_comments}**",
                                       colour=0x5643fd, timestamp=ctx.message.created_at)
@@ -160,7 +160,7 @@ class Reddit(commands.Cog):
                     comments.append(top_level_comment)
                 final_comment = random.choice(comments)
                 embed.add_field(
-                    name=f"{final_comment.author} | <:upvote:718895913342337036> **{final_comment.score:,}**   **"
+                    name=f"{final_comment.author} | <:upvote:751314607808839803> **{final_comment.score:,}**   **"
                          f"💬 {len(final_comment.replies):,}**",
                     value=final_comment.body)
                 embed.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
@@ -180,7 +180,7 @@ class Reddit(commands.Cog):
             )
             embedd.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
             embedd.set_image(
-                url='https://i.pinimg.com/originals/b2/28/13/b228138ca189b63989d295492e8a8b16.gif')
+                url='https://i.imgur.com/gVX3yPJ.gif?noredirect')
             message = await ctx.send(embed=embedd)
             reddit = self.reddit.subreddit(subreddit)
             sorts = ['new', 'controversial', 'rising', 'top', 'topever', 'hot', 'controversialever']
@@ -205,7 +205,8 @@ class Reddit(commands.Cog):
             embed.set_author(name=f"u/{submission.author.name}", icon_url=submission.author.icon_img)
             embed.set_footer(text=f'r/{submission.subreddit}',
                              icon_url=submission.subreddit.icon_img)
-            embed.add_field(name='Score', value=f'<:upvote:718895913342337036> {submission.score}')
+            embed.set_thumbnail(url=submission.subreddit.icon_img)
+            embed.add_field(name='Score', value=f'<:upvote:751314607808839803> {submission.score}')
             embed.add_field(name='Comments', value=f'💬 {submission.num_comments}')
             await message.edit(
                 embed=embed) if not submission.over_18 or submission.over_18 and ctx.channel.is_nsfw() \
@@ -230,7 +231,7 @@ class Reddit(commands.Cog):
             colour=0x5643fd, title="Counting items in the modqueue...", timestamp=ctx.message.created_at)
         embedd.set_footer(text=f'Requested by {ctx.message.author}', icon_url=ctx.message.author.avatar_url)
         embedd.set_image(
-            url='https://i.pinimg.com/originals/b2/28/13/b228138ca189b63989d295492e8a8b16.gif')
+            url='https://i.imgur.com/gVX3yPJ.gif?noredirect')
         message = await ctx.send(embed=embedd)
         for post in self.reddit.subreddit(sub).mod.modqueue(limit=None, only="submissions"):
             posts.append(post)

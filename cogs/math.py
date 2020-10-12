@@ -1,5 +1,6 @@
 import discord
 import cmath
+import random
 from discord.ext import commands
 
 
