@@ -295,32 +295,39 @@ class Fun(commands.Cog):
         await a.delete()
 
     @commands.command()
-    async def news(self, ctx, result=0):
-        """Show the top headlines in the U.S. for today. Enter a number to show a certain result."""
+    async def news(self, ctx, result: int = 0):
+        """Show the top headlines in the U.S. for today. Enter a number (0-15) to show a certain result. """
         url = f'https://newsapi.org/v2/top-headlines?country=us&apiKey={news_key}'
-        async with aiohttp.ClientSession() as cs, ctx.typing():
-            async with cs.get(url) as resp:
-                if resp.status == 500:
-                    return await ctx.send("<:redx:732660210132451369> The API's server is currently down. "
-                                          "Check back later.")
-                if resp.status == 429:
-                    return await ctx.send('<:redx:732660210132451369> This command is on a timeout. '
-                                          'Check back tomorrow when we have more API requests available.')
-                if resp.status == 400:
-                    return await ctx.send('<:redx:732660210132451369> Something went wrong with the request. '
-                                          'Try again with different paramters.')
-                if resp.status == 200:
-                    js = await resp.json()
-                    a = js['articles'][result]
-                    embed = discord.Embed(color=0x5643fd, timestamp=ctx.message.created_at, title=a['title'],
-                                          url=a['url'])
-                    embed.add_field(name='Content', inline=False, value=a['content'])
-                    embed.add_field(name='Total Results', inline=False, value=js['totalResults'])
-                    embed.add_field(name='Publish Date', inline=False, value=a['publishedAt'])
-                    embed.add_field(name='Source', inline=False, value=a['source']['name'])
-                    embed.set_author(name=a['author'])
-                    embed.set_thumbnail(url=a['urlToImage'])
-                    return await ctx.send(embed=embed)
+        # I could get a lot more results than 15 articles but it updates everyday and the results are always different
+        # I had to put a reasonable limit on the index for the index was always in range to avoid errors.
+        sort = range(-1, 16)
+        if result not in sort:
+            return await ctx.send('<:redx:732660210132451369> This is not a valid search index. Please choose a number '
+                                  'between 0 and 15.')
+        if result in sort:
+            async with aiohttp.ClientSession() as cs, ctx.typing():
+                async with cs.get(url) as resp:
+                    if resp.status == 500:
+                        return await ctx.send("<:redx:732660210132451369> The API's server is currently down. "
+                                              "Check back later. This is not a problem on my end.")
+                    if resp.status == 429:
+                        return await ctx.send('<:redx:732660210132451369> This command is on a timeout. '
+                                              'Check back tomorrow when we have more API requests available.')
+                    if resp.status == 400:
+                        return await ctx.send('<:redx:732660210132451369> Something went wrong with the request. '
+                                              'Try again with different parameters.')
+                    if resp.status == 200:
+                        js = await resp.json()
+                        # result is the index
+                        a = js['articles'][result]
+                        embed = discord.Embed(color=0x5643fd, timestamp=ctx.message.created_at, title=a['title'],
+                                              url=a['url'])
+                        embed.add_field(name='Content', inline=False, value=a['content'])
+                        embed.add_field(name='Publish Date', inline=False, value=a['publishedAt'])
+                        embed.add_field(name='Source', inline=False, value=a['source']['name'])
+                        embed.set_author(name=a['author'])
+                        embed.set_image(url=a['urlToImage'])
+                        return await ctx.send(embed=embed)
 
 
 def setup(client):
